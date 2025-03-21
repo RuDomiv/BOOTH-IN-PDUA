@@ -1,16 +1,32 @@
-Data_A:		0x00				; Data_A inicializado en 0
-Q:			0x03				; Valor de Q
-M:			0x07				; valor de M
-Q1:			0X00 				; Q-1 inicializado en 0
-Count:		0x08				; Valor de Count conforme el número de bits
-INIT_IF:	
-			MOV		DPTR, CTE	; Apuntar a la dirección de Q con el DPTR
+			JMP		CTE
+			INIT_IF
+Data_A	:	0x00				; Data_A inicializado en 0
+Q		:	0xFD				; Valor de Q
+M		:	0x07				; valor de M
+Q1		:	0X00 				; Q-1 inicializado en 0
+Count	:	0x00				; Valor de Count conforme el número de bits
+INIT_VAR:	MOV		DPTR, CTE	; Inicializar Data_A
+			Data_A		
+			MOV 	ACC, CTE
+			0x00
+			MOV   	[DPTR], ACC
+			MOV		DPTR, CTE	; Inicializar Q-1
+			Q1		
+			MOV 	ACC, CTE
+			0x00
+			MOV   	[DPTR], ACC
+			MOV		DPTR, CTE	; Inicializar Count
+			Count		
+			MOV 	ACC, CTE
+			0x08
+			MOV   	[DPTR], ACC
+INIT_IF:	MOV		DPTR, CTE	; Traer Q
 			Q					
 			MOV   	ACC, [DPTR]
 			AND 	ACC, CTE	; Hacer AND de Q con 1 para enmasacara el último bit
 			0x01				; El valor de Q enmascarado queda en ACC
 			MOV		A, ACC		; Cargar el valor del LSB de Q a A
-			MOV   	DPTR, CTE	; Apuntar a la dirección de Q-1 con el DPTR
+			MOV   	DPTR, CTE	; Apuntar a la dirección de Q-1 con el DPTR-
 			Q1
 			MOV   	ACC, [DPTR]	; Cargar el valor de Q-1 en ACC
 			XOR		ACC, A 		; PARA SABER SI ES 11 O 00 (OBVIAMENTE GENERA FLAG)!!
